@@ -3,8 +3,7 @@ const cache = {}
 const TTL = 60 * 1000
 
 function cacheMiddleware(req, res, next) {
-
-    const key = req.url
+    const key = req.originalUrl
 
     const cached = cache[key]
 
@@ -20,13 +19,14 @@ function cacheMiddleware(req, res, next) {
         res.set("X-Cache", "MISS")
         return next()
     }
-    res.set("X-Cache", "HIT")
 
-    return res.json(cached.value)
+    res.set("X-Cache", "HIT")
+    return res.json(cached.data)
 }
-function setCache(key, value) {
+
+function setCache(key, data) {
     cache[key] = {
-        value: value,
+        data,
         createdAt: Date.now()
     }
 }
