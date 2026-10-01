@@ -4,7 +4,6 @@ const TTL = 60 * 1000
 
 function cacheMiddleware(req, res, next) {
     const key = req.originalUrl
-
     const cached = cache[key]
 
     if (!cached) {
@@ -16,11 +15,13 @@ function cacheMiddleware(req, res, next) {
 
     if (age > TTL) {
         delete cache[key]
+
         res.set("X-Cache", "MISS")
         return next()
     }
 
     res.set("X-Cache", "HIT")
+
     return res.json(cached.data)
 }
 
