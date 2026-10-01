@@ -11,42 +11,16 @@ const {
     remove
 } = require("../controllers/productController")
 
-const {
-    cacheMiddleware
-} = require("../middleware/cacheMiddleware")
+router.get("/products", getProducts)
 
+router.get("/products/:id", getProduct)
 
-router.get(
-    "/products",
-    cacheMiddleware,
-    getProducts
-)
+router.post("/products", create)
 
-router.get(
-    "/products/:id",
-    cacheMiddleware,
-    getProduct
-)
+router.put("/products/:id", update)
 
-router.post(
-    "/products",
-    create
-)
+router.patch("/products/:id", patch)
 
-router.put(
-    "/products/:id",
-    update
-)
-
-router.patch(
-    "/products/:id",
-    patch
-)
-
-router.delete(
-    "/products/:id",
-    remove
-)
-
+router.delete("/products/:id", remove)
 
 module.exports = router
