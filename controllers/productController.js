@@ -6,20 +6,11 @@ const {
     deleteProduct
 } = require("../services/productService")
 
-const {
-    setCache,
-    clearCache
-} = require("../middleware/cacheMiddleware")
-
-
 async function getProducts(req, res) {
     try {
         const products = await getAllProducts()
 
-        setCache(req.url, products)
-
         res.json(products)
-
     } catch (error) {
         console.log(error)
 
@@ -28,7 +19,6 @@ async function getProducts(req, res) {
         })
     }
 }
-
 
 async function getProduct(req, res) {
     try {
@@ -42,10 +32,7 @@ async function getProduct(req, res) {
             })
         }
 
-        setCache(req.url, product)
-
         res.json(product)
-
     } catch (error) {
         console.log(error)
 
@@ -54,16 +41,12 @@ async function getProduct(req, res) {
         })
     }
 }
-
 
 async function create(req, res) {
     try {
         const product = await createProduct(req.body)
 
-        clearCache()
-
         res.status(201).json(product)
-
     } catch (error) {
         console.log(error)
 
@@ -72,7 +55,6 @@ async function create(req, res) {
         })
     }
 }
-
 
 async function update(req, res) {
     try {
@@ -86,10 +68,7 @@ async function update(req, res) {
             })
         }
 
-        clearCache()
-
         res.json(product)
-
     } catch (error) {
         console.log(error)
 
@@ -98,7 +77,6 @@ async function update(req, res) {
         })
     }
 }
-
 
 async function patch(req, res) {
     try {
@@ -112,10 +90,7 @@ async function patch(req, res) {
             })
         }
 
-        clearCache()
-
         res.json(product)
-
     } catch (error) {
         console.log(error)
 
@@ -124,7 +99,6 @@ async function patch(req, res) {
         })
     }
 }
-
 
 async function remove(req, res) {
     try {
@@ -138,13 +112,10 @@ async function remove(req, res) {
             })
         }
 
-        clearCache()
-
         res.json({
             message: "Product deleted",
             product
         })
-
     } catch (error) {
         console.log(error)
 
@@ -153,7 +124,6 @@ async function remove(req, res) {
         })
     }
 }
-
 
 module.exports = {
     getProducts,
