@@ -6,9 +6,16 @@ const {
     deleteProduct
 } = require("../services/productService")
 
+const {
+    setCache,
+    clearCache
+} = require("../middleware/cacheMiddleware")
+
 async function getProducts(req, res) {
     try {
         const products = await getAllProducts()
+
+        setCache(req.originalUrl, products)
 
         res.json(products)
     } catch (error) {
@@ -32,6 +39,8 @@ async function getProduct(req, res) {
             })
         }
 
+        setCache(req.originalUrl, product)
+
         res.json(product)
     } catch (error) {
         console.log(error)
@@ -45,6 +54,8 @@ async function getProduct(req, res) {
 async function create(req, res) {
     try {
         const product = await createProduct(req.body)
+
+        clearCache()
 
         res.status(201).json(product)
     } catch (error) {
@@ -68,6 +79,8 @@ async function update(req, res) {
             })
         }
 
+        clearCache()
+
         res.json(product)
     } catch (error) {
         console.log(error)
@@ -90,6 +103,8 @@ async function patch(req, res) {
             })
         }
 
+        clearCache()
+
         res.json(product)
     } catch (error) {
         console.log(error)
@@ -111,6 +126,8 @@ async function remove(req, res) {
                 message: "Product not found"
             })
         }
+
+        clearCache()
 
         res.json({
             message: "Product deleted",

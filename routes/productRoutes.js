@@ -11,9 +11,13 @@ const {
     remove
 } = require("../controllers/productController")
 
-router.get("/products", getProducts)
+const {
+    cacheMiddleware
+} = require("../middleware/cacheMiddleware")
 
-router.get("/products/:id", getProduct)
+router.get("/products", cacheMiddleware, getProducts)
+
+router.get("/products/:id", cacheMiddleware, getProduct)
 
 router.post("/products", create)
 
